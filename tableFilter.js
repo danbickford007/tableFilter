@@ -1,7 +1,29 @@
+/*===========================================================================
+	TableFilter
+  * Uses Prototype (http://prototype.conio.net/)
+	*By Dan Bickford
+	
+	<input field="text" id="search" />
+	
+	<table>
+		<tr class="filterMe">
+			<td>Test</td>
+			<td>Tester</td>
+		</tr>
+	</table>
+	
+	<script>
+		TableFilter.new("filterMe", "search", [0]);
+	</script>
+	
+	
+---------------------------------------------------------------------------*/
+
 //First arg is class placed on table row to filter
 //Second arg is the id of the text field searching off of
 //Third arg is an array corresponding to column of table, ie first column(td) is 0, second is 1
-//By Dan Bickford
+
+
 
 var TableFilter = Class.create({
 	initialize: function(className, fieldId, rowArray){
@@ -20,7 +42,9 @@ var TableFilter = Class.create({
 			
 		 }else if (elem.attachEvent){
 				 var me = this;
-		     elem.attachEvent ('onkeyup',me.filter(me.className, me.fieldId, me.rowArray));
+		     elem.attachEvent ('onkeyup', function(){
+						me.filter(me.className, me.fieldId, me.rowArray)
+				 });
 		 }
 	},
 	showAllResults: function(rows){
