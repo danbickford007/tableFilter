@@ -18,32 +18,30 @@
 	
 	
 ---------------------------------------------------------------------------*/
-
 //First arg is class placed on table row to filter
 //Second arg is the id of the text field searching off of
 //Third arg is an array corresponding to column of table, ie first column(td) is 0, second is 1
 
-
-
 var TableFilter = Class.create({
-	initialize: function(className, fieldId, rowArray){
+	initialize: function(className, fieldId, rowArray, showByDefault){
 		this.className = className;
 		this.fieldId = fieldId;
 		this.listen();
 		this.rowArray = rowArray;
+		this.showByDefault = showByDefault;
 	},
 	listen: function(){
 		var elem = $(this.fieldId);
 		if (elem.addEventListener){
 				 var me = this;
 		     elem.addEventListener ("keyup",function(){
-						me.filter(me.className, me.fieldId, me.rowArray)
+						me.filter(me.className, me.fieldId, me.rowArray, me.showByDefault)
 					},false);
 			
 		 }else if (elem.attachEvent){
 				 var me = this;
 		     elem.attachEvent ('onkeyup', function(){
-						me.filter(me.className, me.fieldId, me.rowArray)
+						me.filter(me.className, me.fieldId, me.rowArray, me.showByDefault)
 				 });
 		 }
 	},
@@ -65,17 +63,21 @@ var TableFilter = Class.create({
 		rows = document.getElementsByClassName(className);
 		text = $(fieldId).value;
 		this.showAllResults(rows);
+
+		if(this.showByDefault == true){
+			var showHide = ["", "", "none"];
+		}else{
+			var showHide = ["none", "", "none"];
+		}
 		for(var i=0; i<rows.length; i++){
 			match = this.checkMatch(rowArray, rows[i]);
 			if(text == "" || text == " "){
-				rows[i].style.display = ""
+				rows[i].style.display = showHide[0];
 			}else if(match){
-				rows[i].style.display = ""
+				rows[i].style.display = showHide[1];
 			}else{
-				rows[i].style.display = "none"
+				rows[i].style.display = showHide[2];
 			}
 		}
 	}
 })
-
-
